@@ -201,3 +201,23 @@ if (accordions.length > 0) {
         });
     });
 }
+
+// Staggered Animations for new sections
+const staggeredSections = document.querySelectorAll('#selected-work, #built-with');
+if (staggeredSections.length > 0) {
+    const staggerObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const items = entry.target.querySelectorAll('.stagger-item');
+                items.forEach((item, index) => {
+                    setTimeout(() => {
+                        item.classList.add('active');
+                    }, index * 80); 
+                });
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.1, rootMargin: "0px 0px -50px 0px" });
+
+    staggeredSections.forEach(sec => staggerObserver.observe(sec));
+}
